@@ -4,6 +4,9 @@ import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import Deck from "./models/Deck";
 import cors from "cors";
+import { getDeckController } from "./controllers/getDeckController";
+import { createDeckController } from "./controllers/createDeckController";
+import { deleteDeckController } from "./controllers/deleteDeckController";
 const PORT = 5000;
 const app = express();
 
@@ -14,29 +17,9 @@ app.use(
 );
 app.use(express.json());
 
-app.get("/decks", async (req: Request, res: Response) => {
-  const decks = await Deck.find();
-  res.json(decks);
-});
-
-app.post("/decks", async (req: Request, res: Response) => {
-  console.log(req.body);
-  const newDeck = new Deck({
-    title: req.body.title,
-  });
-  const createdDeck = await newDeck.save();
-  res.json(createdDeck);
-});
-
-app.delete("/decks/:deckId", async (req: Request, res: Response) => {
-  const deckId = req.params.deckId;
-
-  await Deck.findByIdAndDelete(deckId);
-
-  res.json({
-    message: "successfully deleted the entry",
-  });
-});
+app.get("/decks", getDeckController);
+app.post("/decks", createDeckController);
+app.delete("/decks/:deckId", deleteDeckController);
 
 mongoose.connect(process.env.MONGO_URL!).then(() => {
   console.log("listening to port {PORT}");
