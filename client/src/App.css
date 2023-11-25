@@ -20,6 +20,7 @@
 }
 
 .decks li {
+  position: relative;
   display: flex;
   justify-content: center;
   color: black;
@@ -30,6 +31,8 @@
   border-radius: 10px;
 }
 
-.decks li:hover {
-  background-color: #eee;
+.decks li button {
+  position: absolute;
+  right: 0px;
+  top: 0px;
 }
